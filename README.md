@@ -714,8 +714,3 @@ goml pretty config.goml
 - [Website](website/) - GOML marketing site with playground
 
 ---
-
-# License
-
-MIT
-# goml
