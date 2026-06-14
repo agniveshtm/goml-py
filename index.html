@@ -645,41 +645,42 @@
             </div>
             <div class="playground-editor">
                 <div class="editor-tabs">
-                    <div class="editor-tab active">GOML Input</div>
-                    <div class="editor-tab">JSON Output</div>
+                    <div class="editor-tab active" id="input-tab">JSON Input</div>
+                    <div class="editor-tab" id="output-tab">GOML Output</div>
                 </div>
                 <div class="editor-body">
-                    <div class="editor-pane active" id="goml-input">
+                    <div class="editor-pane active" id="editor-input">
                         <div class="highlight-container">
                             <pre class="highlight-overlay" id="highlight-overlay" aria-hidden="true"><code></code></pre>
-                            <textarea id="goml-editor" spellcheck="false"># Try editing this GOML
-app {
-  name = MyApp
-  port = 8080
-  debug = false
-}
-
-server {
-  host = localhost
-  port = 8080
-  workers = 4
-}
-
-database {
-  host = localhost
-  port = 5432
-  name = myapp
-}
-
-features = [auth, logging, cache]</textarea>
+                            <textarea id="goml-editor" spellcheck="false">{
+  "app": {
+    "name": "MyApp",
+    "port": 8080,
+    "debug": false
+  },
+  "server": {
+    "host": "localhost",
+    "port": 8080,
+    "workers": 4
+  },
+  "database": {
+    "host": "localhost",
+    "port": 5432,
+    "name": "myapp"
+  },
+  "features": ["auth", "logging", "cache"]
+}</textarea>
                         </div>
                     </div>
-                    <div class="editor-pane" id="json-output">
+                    <div class="editor-pane" id="editor-output">
                         <pre id="json-result"></pre>
                     </div>
                 </div>
                 <div class="editor-footer">
-                    <button class="btn btn-primary" id="parse-btn">Parse to JSON</button>
+                    <div class="editor-actions">
+                        <button class="btn btn-primary active" id="json-to-goml-btn">JSON to GOML</button>
+                        <button class="btn btn-outline" id="goml-to-json-btn">GOML to JSON</button>
+                    </div>
                     <span class="editor-status" id="parse-status">Ready</span>
                 </div>
             </div>

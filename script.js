@@ -6,6 +6,56 @@ document.addEventListener('DOMContentLoaded', () => {
     initMobileNav();
 });
 
+function highlightJson(str) {
+    return str.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (match) {
+        let cls = 'json-number';
+        if (/^"/.test(match)) {
+            if (/:$/.test(match)) {
+                cls = 'json-key';
+            } else {
+                cls = 'json-string';
+            }
+        } else if (/true|false/.test(match)) {
+            cls = 'json-bool';
+        } else if (/null/.test(match)) {
+            cls = 'json-null';
+        }
+        return '<span class="' + cls + '">' + match + '</span>';
+    });
+}
+
+function escapeHtml(str) {
+    return str
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+}
+
+function highlightJsonOutput(str) {
+    return escapeHtml(str).replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (match) {
+        let cls = 'json-number';
+        if (/^"/.test(match)) {
+            if (/:$/.test(match)) {
+                cls = 'json-key';
+            } else {
+                cls = 'json-string';
+            }
+        } else if (/true|false/.test(match)) {
+            cls = 'json-bool';
+        } else if (/null/.test(match)) {
+            cls = 'json-null';
+        }
+        return '<span class="' + cls + '">' + match + '</span>';
+    });
+}
+
+function highlightGomlOutput(str) {
+    if (window.highlightGoml) {
+        return highlightGoml(str);
+    }
+    return escapeHtml(str);
+}
+
 function initMobileNav() {
     const toggle = document.getElementById('nav-toggle');
     const links = document.getElementById('nav-links');
@@ -63,34 +113,116 @@ function initPlayground() {
     const overlay = document.getElementById('highlight-overlay');
     const overlayCode = overlay.querySelector('code');
     const result = document.getElementById('json-result');
-    const parseBtn = document.getElementById('parse-btn');
+    const jsonToGomlBtn = document.getElementById('json-to-goml-btn');
+    const gomlToJsonBtn = document.getElementById('goml-to-json-btn');
     const status = document.getElementById('parse-status');
-    const editorTabs = document.querySelectorAll('.editor-tab');
-    const gomlPane = document.getElementById('goml-input');
-    const jsonPane = document.getElementById('json-output');
+    const inputTab = document.getElementById('input-tab');
+    const outputTab = document.getElementById('output-tab');
+    const editorInput = document.getElementById('editor-input');
+    const editorOutput = document.getElementById('editor-output');
+    let currentMode = 'json-to-goml';
+
+    const gomlExample = `# Try editing this GOML
+app {
+  name = MyApp
+  port = 8080
+  debug = false
+}
+
+server {
+  host = localhost
+  port = 8080
+  workers = 4
+}
+
+database {
+  host = localhost
+  port = 5432
+  name = myapp
+}
+
+features = [auth, logging, cache]`;
+
+    const jsonExample = `{
+  "app": {
+    "name": "MyApp",
+    "port": 8080,
+    "debug": false
+  },
+  "server": {
+    "host": "localhost",
+    "port": 8080,
+    "workers": 4
+  },
+  "database": {
+    "host": "localhost",
+    "port": 5432,
+    "name": "myapp"
+  },
+  "features": ["auth", "logging", "cache"]
+}`;
 
     function switchTab(tabIndex) {
-        editorTabs.forEach(t => t.classList.remove('active'));
-        gomlPane.classList.remove('active');
-        jsonPane.classList.remove('active');
+        inputTab.classList.remove('active');
+        outputTab.classList.remove('active');
+        editorInput.classList.remove('active');
+        editorOutput.classList.remove('active');
 
-        editorTabs[tabIndex].classList.add('active');
         if (tabIndex === 0) {
-            gomlPane.classList.add('active');
+            inputTab.classList.add('active');
+            editorInput.classList.add('active');
         } else {
-            jsonPane.classList.add('active');
+            outputTab.classList.add('active');
+            editorOutput.classList.add('active');
         }
     }
 
-    editorTabs[0].addEventListener('click', () => switchTab(0));
-    editorTabs[1].addEventListener('click', () => switchTab(1));
+    function switchMode(mode) {
+        currentMode = mode;
+        
+        if (mode === 'json-to-goml') {
+            inputTab.textContent = 'JSON Input';
+            outputTab.textContent = 'GOML Output';
+            jsonToGomlBtn.classList.add('active');
+            jsonToGomlBtn.classList.remove('btn-outline');
+            jsonToGomlBtn.classList.add('btn-primary');
+            gomlToJsonBtn.classList.remove('active');
+            gomlToJsonBtn.classList.remove('btn-primary');
+            gomlToJsonBtn.classList.add('btn-outline');
+            editor.value = jsonExample;
+        } else {
+            inputTab.textContent = 'GOML Input';
+            outputTab.textContent = 'JSON Output';
+            gomlToJsonBtn.classList.add('active');
+            gomlToJsonBtn.classList.remove('btn-outline');
+            gomlToJsonBtn.classList.add('btn-primary');
+            jsonToGomlBtn.classList.remove('active');
+            jsonToGomlBtn.classList.remove('btn-primary');
+            jsonToGomlBtn.classList.add('btn-outline');
+            editor.value = gomlExample;
+        }
+        
+        result.textContent = '';
+        status.textContent = 'Ready';
+        status.style.color = 'var(--text-muted)';
+        switchTab(0);
+        updateHighlight();
+    }
+
+    inputTab.addEventListener('click', () => switchTab(0));
+    outputTab.addEventListener('click', () => switchTab(1));
 
     function updateHighlight() {
         const text = editor.value;
-        if (window.highlightGoml) {
+        if (currentMode === 'json-to-goml') {
+            overlayCode.innerHTML = highlightJson(text);
+            overlayCode.className = 'json-highlight';
+        } else if (window.highlightGoml) {
             overlayCode.innerHTML = highlightGoml(text);
+            overlayCode.className = '';
         } else {
             overlayCode.textContent = text;
+            overlayCode.className = '';
         }
     }
 
@@ -113,7 +245,36 @@ function initPlayground() {
 
     updateHighlight();
 
-    parseBtn.addEventListener('click', () => {
+    jsonToGomlBtn.addEventListener('click', () => {
+        if (currentMode !== 'json-to-goml') {
+            switchMode('json-to-goml');
+        }
+        
+        status.textContent = 'Converting...';
+        status.style.color = 'var(--text-muted)';
+
+        setTimeout(() => {
+            try {
+                const jsonText = editor.value;
+                const parsed = JSON.parse(jsonText);
+                const gomlOutput = jsonToGoml(parsed);
+                result.innerHTML = highlightGomlOutput(gomlOutput);
+                status.textContent = 'Converted successfully';
+                status.style.color = 'var(--accent)';
+                switchTab(1);
+            } catch (e) {
+                result.innerHTML = `<span style="color: var(--red)">Error: ${escapeHtml(e.message)}</span>`;
+                status.textContent = 'Conversion error';
+                status.style.color = 'var(--red)';
+            }
+        }, 100);
+    });
+
+    gomlToJsonBtn.addEventListener('click', () => {
+        if (currentMode !== 'goml-to-json') {
+            switchMode('goml-to-json');
+        }
+        
         status.textContent = 'Parsing...';
         status.style.color = 'var(--text-muted)';
 
@@ -121,14 +282,13 @@ function initPlayground() {
             try {
                 const gomlText = editor.value;
                 const parsed = parseGoml(gomlText);
-                result.textContent = JSON.stringify(parsed, null, 2);
-                result.style.color = 'var(--text)';
+                const jsonOutput = JSON.stringify(parsed, null, 2);
+                result.innerHTML = highlightJsonOutput(jsonOutput);
                 status.textContent = 'Parsed successfully';
                 status.style.color = 'var(--accent)';
                 switchTab(1);
             } catch (e) {
-                result.textContent = 'Error: ' + e.message;
-                result.style.color = 'var(--red)';
+                result.innerHTML = `<span style="color: var(--red)">Error: ${escapeHtml(e.message)}</span>`;
                 status.textContent = 'Parse error';
                 status.style.color = 'var(--red)';
             }
@@ -275,6 +435,86 @@ function parseGomlArray(items) {
     }
 
     return result;
+}
+
+function jsonToGoml(obj, indent = 0) {
+    let output = '';
+    const prefix = '  '.repeat(indent);
+
+    for (const [key, value] of Object.entries(obj)) {
+        if (value === null || value === undefined) {
+            output += `${prefix}${key} = ~\n`;
+        } else if (typeof value === 'boolean') {
+            output += `${prefix}${key} = ${value}\n`;
+        } else if (typeof value === 'number') {
+            output += `${prefix}${key} = ${value}\n`;
+        } else if (typeof value === 'string') {
+            if (value.includes(' ') || value.includes('#') || value.includes('//')) {
+                output += `${prefix}${key} = "${value}"\n`;
+            } else {
+                output += `${prefix}${key} = ${value}\n`;
+            }
+        } else if (Array.isArray(value)) {
+            if (value.length === 0) {
+                output += `${prefix}${key} = []\n`;
+            } else if (value.every(v => typeof v !== 'object' || v === null)) {
+                const items = value.map(v => formatArrayValue(v)).join(', ');
+                output += `${prefix}${key} = [${items}]\n`;
+            } else {
+                output += `${prefix}${key} = [\n`;
+                value.forEach((item, i) => {
+                    if (typeof item === 'object' && item !== null && !Array.isArray(item)) {
+                        output += `${prefix}  {\n`;
+                        output += jsonToGoml(item, indent + 2).trimEnd() + '\n';
+                        output += `${prefix}  }`;
+                    } else {
+                        output += `${prefix}  ${formatArrayValue(item)}`;
+                    }
+                    if (i < value.length - 1) output += ',';
+                    output += '\n';
+                });
+                output += `${prefix}]\n`;
+            }
+        } else if (typeof value === 'object') {
+            const keys = Object.keys(value);
+            if (keys.length === 0) {
+                output += `${prefix}${key} {}\n`;
+            } else {
+                output += `${prefix}${key} {\n`;
+                output += jsonToGoml(value, indent + 1);
+                output += `${prefix}}\n`;
+            }
+        }
+    }
+
+    return output;
+}
+
+function formatArrayValue(val) {
+    if (val === null || val === undefined) return '~';
+    if (typeof val === 'boolean') return String(val);
+    if (typeof val === 'number') return String(val);
+    if (typeof val === 'string') {
+        if (val.includes(' ') || val.includes('#') || val.includes('//')) {
+            return `"${val}"`;
+        }
+        return val;
+    }
+    if (Array.isArray(val)) {
+        const items = val.map(v => formatArrayValue(v)).join(', ');
+        return `[${items}]`;
+    }
+    if (typeof val === 'object') {
+        let obj = '{ ';
+        const entries = Object.entries(val);
+        entries.forEach(([k, v], i) => {
+            obj += `${k} = ${formatArrayValue(v)}`;
+            if (i < entries.length - 1) obj += ', ';
+        });
+        obj += ' }';
+        return obj;
+    }
+    return String(val);
 }
 
 function initNavScroll() {
