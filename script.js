@@ -46,6 +46,25 @@ function initPlayground() {
     const result = document.getElementById('json-result');
     const parseBtn = document.getElementById('parse-btn');
     const status = document.getElementById('parse-status');
+    const editorTabs = document.querySelectorAll('.editor-tab');
+    const gomlPane = document.getElementById('goml-input');
+    const jsonPane = document.getElementById('json-output');
+
+    function switchTab(tabIndex) {
+        editorTabs.forEach(t => t.classList.remove('active'));
+        gomlPane.classList.remove('active');
+        jsonPane.classList.remove('active');
+
+        editorTabs[tabIndex].classList.add('active');
+        if (tabIndex === 0) {
+            gomlPane.classList.add('active');
+        } else {
+            jsonPane.classList.add('active');
+        }
+    }
+
+    editorTabs[0].addEventListener('click', () => switchTab(0));
+    editorTabs[1].addEventListener('click', () => switchTab(1));
 
     function updateHighlight() {
         const text = editor.value;
@@ -87,6 +106,7 @@ function initPlayground() {
                 result.style.color = 'var(--text)';
                 status.textContent = 'Parsed successfully';
                 status.style.color = 'var(--accent)';
+                switchTab(1);
             } catch (e) {
                 result.textContent = 'Error: ' + e.message;
                 result.style.color = 'var(--red)';

@@ -728,8 +728,6 @@ body {
 }
 
 .editor-body {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
     min-height: 400px;
 }
 
@@ -740,11 +738,6 @@ body {
 
 .editor-pane.active {
     display: block;
-}
-
-.editor-pane:first-child {
-    display: block;
-    border-right: 1px solid var(--border);
 }
 
 #goml-editor {
@@ -808,7 +801,7 @@ body {
     color: var(--text-muted);
     white-space: pre-wrap;
     overflow: auto;
-    max-height: 400px;
+    min-height: 400px;
 }
 
 .editor-footer {
@@ -968,10 +961,6 @@ body {
     }
 
     .cli-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .editor-body {
         grid-template-columns: 1fr;
     }
 
