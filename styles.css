@@ -942,18 +942,129 @@ body {
     font-size: 0.8rem;
 }
 
+/* Mobile Nav Toggle */
+.nav-toggle {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    z-index: 110;
+}
+
+.nav-toggle span {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: var(--text);
+    margin: 5px 0;
+    transition: all 0.3s ease;
+    border-radius: 2px;
+}
+
+.nav-toggle.active span:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+}
+
+.nav-toggle.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.nav-toggle.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(5px, -5px);
+}
+
 /* Responsive */
+@media (max-width: 1024px) {
+    .container {
+        padding: 0 20px;
+    }
+
+    .hero {
+        padding: 140px 20px 60px;
+    }
+
+    .hero h1 {
+        font-size: clamp(2rem, 5vw, 3.5rem);
+    }
+
+    .features,
+    .styles,
+    .compare,
+    .usecases,
+    .install,
+    .playground,
+    .schema-section {
+        padding: 80px 0;
+    }
+
+    .section-header {
+        margin-bottom: 48px;
+    }
+
+    .footer {
+        padding: 60px 0 32px;
+    }
+}
+
 @media (max-width: 900px) {
+    .nav-toggle {
+        display: block;
+    }
+
+    .nav-links {
+        position: fixed;
+        top: 64px;
+        left: 0;
+        right: 0;
+        background: rgba(10, 10, 15, 0.98);
+        backdrop-filter: blur(20px);
+        flex-direction: column;
+        align-items: center;
+        gap: 0;
+        padding: 0;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease, padding 0.3s ease;
+        border-bottom: 1px solid transparent;
+    }
+
+    .nav-links.open {
+        max-height: 400px;
+        padding: 16px 0;
+        border-bottom-color: var(--border);
+    }
+
+    .nav-links a {
+        padding: 12px 24px;
+        width: 100%;
+        text-align: center;
+        font-size: 1rem;
+    }
+
+    .nav-links a:hover {
+        background: var(--bg-card);
+    }
+
     .features-grid {
         grid-template-columns: repeat(2, 1fr);
     }
 
     .styles-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .styles-grid .style-card:last-child {
+        grid-column: span 2;
     }
 
     .compare-split {
         grid-template-columns: 1fr;
+    }
+
+    .compare-stats {
+        flex-wrap: wrap;
+        gap: 24px;
     }
 
     .install-grid {
@@ -972,27 +1083,370 @@ body {
         grid-template-columns: 1fr 1fr;
         gap: 32px;
     }
+
+    .footer-brand {
+        grid-column: span 2;
+    }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 768px) {
+    .hero {
+        padding: 120px 16px 48px;
+    }
+
+    .hero h1 {
+        font-size: clamp(1.8rem, 8vw, 2.5rem);
+    }
+
+    .hero-desc {
+        font-size: 1rem;
+    }
+
+    .hero-actions {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .hero-actions .btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .hero-code {
+        max-width: 100%;
+    }
+
+    .hero-code code {
+        font-size: 0.75rem;
+    }
+
+    .features,
+    .styles,
+    .compare,
+    .usecases,
+    .install,
+    .playground,
+    .schema-section {
+        padding: 60px 0;
+    }
+
+    .section-header {
+        margin-bottom: 36px;
+    }
+
+    .section-header h2 {
+        font-size: clamp(1.4rem, 5vw, 2rem);
+    }
+
     .features-grid {
         grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .feature-card {
+        padding: 20px;
+    }
+
+    .styles-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .styles-grid .style-card:last-child {
+        grid-column: span 1;
+    }
+
+    .compare-tabs,
+    .usecase-tabs {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .compare-tab,
+    .usecase-tab {
+        font-size: 0.75rem;
+        padding: 8px 14px;
+    }
+
+    .compare-col pre {
+        padding: 12px;
+    }
+
+    .compare-col code {
+        font-size: 0.7rem;
+    }
+
+    .compare-stats {
+        gap: 16px;
+    }
+
+    .stat-value {
+        font-size: 1.2rem;
     }
 
     .install-grid {
         grid-template-columns: 1fr;
     }
 
-    .nav-links {
-        display: none;
+    .install-card {
+        padding: 16px;
     }
 
-    .compare-tabs {
-        flex-wrap: wrap;
+    .install-cmd code {
+        font-size: 0.65rem;
+    }
+
+    .cli-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .playground-editor {
+        border-radius: var(--radius-sm);
+    }
+
+    .editor-tabs {
+        overflow-x: auto;
+    }
+
+    .editor-tab {
+        padding: 10px 16px;
+        font-size: 0.75rem;
+        white-space: nowrap;
+    }
+
+    #goml-editor {
+        font-size: 0.75rem;
+        min-height: 300px;
+        padding: 16px;
+    }
+
+    .highlight-overlay {
+        font-size: 0.75rem;
+        padding: 16px;
+    }
+
+    .highlight-overlay code {
+        font-size: 0.75rem;
+    }
+
+    #json-result {
+        font-size: 0.75rem;
+        min-height: 300px;
+        padding: 16px;
+    }
+
+    .editor-footer {
+        flex-direction: column;
+        gap: 12px;
+        align-items: stretch;
+    }
+
+    .editor-footer .btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .schema-demo {
+        gap: 16px;
+    }
+
+    .schema-code pre {
+        padding: 16px;
+    }
+
+    .schema-code code {
+        font-size: 0.7rem;
     }
 
     .footer-grid {
         grid-template-columns: 1fr;
+        gap: 32px;
+    }
+
+    .footer-brand {
+        grid-column: span 1;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 0 12px;
+    }
+
+    .hero {
+        padding: 100px 12px 36px;
+    }
+
+    .hero-badge {
+        font-size: 0.7rem;
+        padding: 4px 10px;
+        margin-bottom: 20px;
+    }
+
+    .hero h1 {
+        font-size: 1.6rem;
+    }
+
+    .hero-desc {
+        font-size: 0.9rem;
+        margin-bottom: 28px;
+    }
+
+    .hero-code pre {
+        padding: 12px;
+    }
+
+    .hero-code code {
+        font-size: 0.65rem;
+    }
+
+    .section-tag {
+        font-size: 0.7rem;
+    }
+
+    .section-header h2 {
+        font-size: 1.3rem;
+    }
+
+    .features,
+    .styles,
+    .compare,
+    .usecases,
+    .install,
+    .playground,
+    .schema-section {
+        padding: 48px 0;
+    }
+
+    .feature-icon {
+        width: 40px;
+        height: 40px;
+        font-size: 1.2rem;
+    }
+
+    .feature-card h3 {
+        font-size: 0.9rem;
+    }
+
+    .feature-card p {
+        font-size: 0.8rem;
+    }
+
+    .feature-example code {
+        font-size: 0.65rem;
+    }
+
+    .style-card {
+        padding: 16px;
+    }
+
+    .style-card pre {
+        padding: 10px;
+    }
+
+    .style-card code {
+        font-size: 0.65rem;
+    }
+
+    .compare-tab,
+    .usecase-tab {
+        font-size: 0.7rem;
+        padding: 6px 12px;
+    }
+
+    .compare-col pre {
+        padding: 10px;
+    }
+
+    .compare-col code {
+        font-size: 0.6rem;
+    }
+
+    .stat-value {
+        font-size: 1rem;
+    }
+
+    .stat-label {
+        font-size: 0.7rem;
+    }
+
+    .cli-item {
+        padding: 12px;
+    }
+
+    .cli-cmd {
+        font-size: 0.7rem;
+    }
+
+    .cli-desc {
+        font-size: 0.7rem;
+    }
+
+    #goml-editor,
+    #json-result,
+    .highlight-overlay,
+    .highlight-overlay code {
+        font-size: 0.7rem;
+    }
+
+    .schema-cmd {
+        padding: 12px;
+    }
+
+    .schema-cmd code {
+        font-size: 0.7rem;
+    }
+
+    .schema-result {
+        font-size: 0.65rem;
+    }
+
+    .footer {
+        padding: 40px 0 24px;
+    }
+
+    .footer-grid {
+        gap: 24px;
+    }
+}
+
+@media (max-width: 360px) {
+    .hero h1 {
+        font-size: 1.4rem;
+    }
+
+    .nav-links a {
+        font-size: 0.9rem;
+        padding: 10px 16px;
+    }
+
+    .hero-code code {
+        font-size: 0.6rem;
+    }
+
+    .compare-col code {
+        font-size: 0.55rem;
+    }
+}
+
+/* Large screens */
+@media (min-width: 1600px) {
+    .container {
+        max-width: 1400px;
+    }
+
+    .hero h1 {
+        font-size: 5rem;
+    }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    .hero-content > * {
+        animation: none;
+    }
+
+    * {
+        transition-duration: 0.01ms !important;
     }
 }
 

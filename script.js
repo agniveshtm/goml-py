@@ -3,7 +3,26 @@ document.addEventListener('DOMContentLoaded', () => {
     initUsecaseTabs();
     initPlayground();
     initNavScroll();
+    initMobileNav();
 });
+
+function initMobileNav() {
+    const toggle = document.getElementById('nav-toggle');
+    const links = document.getElementById('nav-links');
+    if (!toggle || !links) return;
+
+    toggle.addEventListener('click', () => {
+        links.classList.toggle('open');
+        toggle.classList.toggle('active');
+    });
+
+    links.querySelectorAll('a').forEach(a => {
+        a.addEventListener('click', () => {
+            links.classList.remove('open');
+            toggle.classList.remove('active');
+        });
+    });
+}
 
 function initCompareTabs() {
     const tabs = document.querySelectorAll('.compare-tab');
