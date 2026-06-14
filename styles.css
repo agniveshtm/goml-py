@@ -1169,8 +1169,12 @@ body {
 }
 
 @media (max-width: 768px) {
+    .container {
+        padding: 0 20px;
+    }
+
     .hero {
-        padding: 120px 16px 48px;
+        padding: 120px 20px 60px;
     }
 
     .hero h1 {
@@ -1179,6 +1183,7 @@ body {
 
     .hero-desc {
         font-size: 1rem;
+        max-width: 100%;
     }
 
     .hero-actions {
@@ -1193,10 +1198,11 @@ body {
 
     .hero-code {
         max-width: 100%;
+        margin: 0;
     }
 
     .hero-code code {
-        font-size: 0.75rem;
+        font-size: 0.8rem;
     }
 
     .features,
@@ -1210,68 +1216,76 @@ body {
     }
 
     .section-header {
-        margin-bottom: 36px;
+        margin-bottom: 40px;
     }
 
     .section-header h2 {
-        font-size: clamp(1.4rem, 5vw, 2rem);
+        font-size: clamp(1.5rem, 5vw, 2rem);
     }
 
     .features-grid {
         grid-template-columns: 1fr;
-        gap: 16px;
+        gap: 20px;
     }
 
     .feature-card {
-        padding: 20px;
+        padding: 24px;
     }
 
     .styles-grid {
         grid-template-columns: 1fr;
     }
 
-    .styles-grid .style-card:last-child {
-        grid-column: span 1;
+    .compare-split {
+        grid-template-columns: 1fr;
+    }
+
+    .compare-col {
+        width: 100%;
     }
 
     .compare-tabs,
     .usecase-tabs {
         flex-wrap: wrap;
         justify-content: center;
+        gap: 8px;
     }
 
     .compare-tab,
     .usecase-tab {
-        font-size: 0.75rem;
-        padding: 8px 14px;
+        font-size: 0.85rem;
+        padding: 10px 16px;
     }
 
     .compare-col pre {
-        padding: 12px;
+        padding: 16px;
     }
 
     .compare-col code {
-        font-size: 0.7rem;
+        font-size: 0.8rem;
     }
 
     .compare-stats {
-        gap: 16px;
+        gap: 20px;
+        flex-wrap: wrap;
+        justify-content: center;
     }
 
     .stat-value {
-        font-size: 1.2rem;
+        font-size: 1.3rem;
     }
 
     .install-grid {
         grid-template-columns: 1fr;
+        gap: 16px;
     }
 
     .install-card {
-        padding: 16px;
+        padding: 20px;
     }
 
     .install-cmd code {
-        font-size: 0.65rem;
+        font-size: 0.75rem;
     }
 
     .cli-grid {
@@ -1287,30 +1301,30 @@ body {
     }
 
     .editor-tab {
-        padding: 10px 16px;
-        font-size: 0.75rem;
+        padding: 12px 20px;
+        font-size: 0.85rem;
         white-space: nowrap;
     }
 
     #goml-editor {
-        font-size: 0.75rem;
-        min-height: 300px;
-        padding: 16px;
+        font-size: 0.85rem;
+        min-height: 350px;
+        padding: 20px;
     }
 
     .highlight-overlay {
-        font-size: 0.75rem;
-        padding: 16px;
+        font-size: 0.85rem;
+        padding: 20px;
     }
 
     .highlight-overlay code {
-        font-size: 0.75rem;
+        font-size: 0.85rem;
     }
 
     #json-result {
-        font-size: 0.75rem;
-        min-height: 300px;
-        padding: 16px;
+        font-size: 0.85rem;
+        min-height: 350px;
+        padding: 20px;
     }
 
     .editor-footer {
@@ -1329,7 +1343,7 @@ body {
     }
 
     .schema-demo {
-        gap: 16px;
+        gap: 20px;
     }
 
     .schema-code pre {
@@ -1337,7 +1351,7 @@ body {
     }
 
     .schema-code code {
-        font-size: 0.7rem;
+        font-size: 0.8rem;
     }
 
     .footer-grid {
@@ -1352,42 +1366,42 @@ body {
 
 @media (max-width: 480px) {
     .container {
-        padding: 0 12px;
+        padding: 0 16px;
     }
 
     .hero {
-        padding: 100px 12px 36px;
+        padding: 100px 16px 48px;
     }
 
     .hero-badge {
-        font-size: 0.7rem;
-        padding: 4px 10px;
-        margin-bottom: 20px;
+        font-size: 0.8rem;
+        padding: 6px 14px;
+        margin-bottom: 24px;
     }
 
     .hero h1 {
-        font-size: 1.6rem;
+        font-size: 1.75rem;
     }
 
     .hero-desc {
-        font-size: 0.9rem;
-        margin-bottom: 28px;
+        font-size: 1rem;
+        margin-bottom: 32px;
     }
 
     .hero-code pre {
-        padding: 12px;
+        padding: 16px;
     }
 
     .hero-code code {
-        font-size: 0.65rem;
+        font-size: 0.75rem;
     }
 
     .section-tag {
-        font-size: 0.7rem;
+        font-size: 0.8rem;
     }
 
     .section-header h2 {
-        font-size: 1.3rem;
+        font-size: 1.4rem;
     }
 
     .features,
@@ -1401,51 +1415,51 @@ body {
     }
 
     .feature-icon {
-        width: 40px;
-        height: 40px;
-        font-size: 1.2rem;
+        width: 48px;
+        height: 48px;
+        font-size: 1.3rem;
     }
 
     .feature-card h3 {
-        font-size: 0.9rem;
+        font-size: 1rem;
     }
 
     .feature-card p {
-        font-size: 0.8rem;
+        font-size: 0.9rem;
     }
 
     .feature-example code {
-        font-size: 0.65rem;
+        font-size: 0.75rem;
     }
 
     .style-card {
-        padding: 16px;
+        padding: 20px;
     }
 
     .style-card pre {
-        padding: 10px;
+        padding: 12px;
     }
 
     .style-card code {
-        font-size: 0.65rem;
+        font-size: 0.75rem;
     }
 
     .compare-tab,
     .usecase-tab {
-        font-size: 0.7rem;
-        padding: 6px 12px;
+        font-size: 0.8rem;
+        padding: 8px 14px;
     }
 
     .compare-col pre {
-        padding: 10px;
+        padding: 14px;
     }
 
     .compare-col code {
-        font-size: 0.6rem;
+        font-size: 0.7rem;
     }
 
     .stat-value {
-        font-size: 1rem;
+        font-size: 1.1rem;
     }
 
     .stat-label {
