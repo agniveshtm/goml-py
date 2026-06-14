@@ -1,0 +1,84 @@
+# Docker Compose in GOML
+# Replaces docker-compose.yml
+
+services {
+  web {
+    build = .
+    ports = ["3000:3000"]
+    depends_on = [api, db]
+    environment {
+      NODE_ENV = production
+      API_URL = http://api:8080
+    }
+    volumes = [./src:/app/src]
+    restart = unless-stopped
+  }
+
+  api {
+    build = ./api
+    ports = ["8080:8080"]
+    depends_on = [db, redis]
+    environment {
+      DATABASE_URL = postgres://user:pass@db:5432/myapp
+      REDIS_URL = redis://redis:6379
+    }
+    healthcheck {
+      test = ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval = 30s
+      timeout = 10s
+      retries = 3
+    }
+    restart = unless-stopped
+  }
+
+  worker {
+    build = ./worker
+    depends_on = [redis, db]
+    environment {
+      QUEUE_URL = redis://redis:6379
+    }
+    restart = unless-stopped
+  }
+
+  db {
+    image = postgres:15-alpine
+    environment {
+      POSTGRES_DB = myapp
+      POSTGRES_USER = user
+      POSTGRES_PASSWORD = pass
+    }
+    volumes = [pgdata:/var/lib/postgresql/data]
+    ports = ["5432:5432"]
+    healthcheck {
+      test = ["CMD-SHELL", "pg_isready -U user -d myapp"]
+      interval = 10s
+      timeout = 5s
+      retries = 5
+    }
+  }
+
+  redis {
+    image = redis:7-alpine
+    ports = ["6379:6379"]
+    volumes = [redisdata:/data]
+    command = redis-server --appendonly yes
+  }
+
+  nginx {
+    image = nginx:alpine
+    ports = ["80:80", "443:443"]
+    volumes = [./nginx.conf:/etc/nginx/nginx.conf:ro]
+    depends_on = [web, api]
+  }
+}
+
+volumes {
+  pgdata
+  redisdata
+}
+
+networks {
+  default {
+    driver = bridge
+  }
+}

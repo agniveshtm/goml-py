@@ -1,0 +1,21 @@
+{
+  "name": "@goml/parser",
+  "version": "0.1.0",
+  "description": "GOML (Go Markup Language) parser and serializer for JavaScript/TypeScript",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "bin": {
+    "goml": "dist/cli.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "test": "node --test dist/**/*.test.js",
+    "cli": "npx tsx src/cli.ts"
+  },
+  "keywords": ["goml", "parser", "serializer", "markup", "data-format"],
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^5.3.0",
+    "@types/node": "^20.0.0"
+  }
+}

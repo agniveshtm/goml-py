@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GOML - Go Markup Language</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav class="nav">
+        <div class="nav-inner">
+            <a href="#" class="logo">
+                <span class="logo-bracket">{</span>
+                <span class="logo-text">GOML</span>
+                <span class="logo-bracket">}</span>
+            </a>
+            <div class="nav-links">
+                <a href="#features">Features</a>
+                <a href="#styles">Styles</a>
+                <a href="#compare">Compare</a>
+                <a href="#usecases">Use Cases</a>
+                <a href="#install">Install</a>
+                <a href="#playground">Playground</a>
+                <a href="https://github.com/goml-lang/goml" target="_blank">GitHub</a>
+            </div>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="hero-bg">
+            <div class="grid-pattern"></div>
+        </div>
+        <div class="hero-content">
+            <div class="hero-badge">v0.1.0</div>
+            <h1>
+                <span class="hero-line">Data format</span>
+                <span class="hero-line accent">without the pain.</span>
+            </h1>
+            <p class="hero-desc">
+                GOML fixes the frustrations of JSON, YAML, TOML, and XML.
+                Simple syntax. No indentation errors. Comments everywhere.
+            </p>
+            <div class="hero-actions">
+                <a href="#install" class="btn btn-primary">Get Started</a>
+                <a href="#playground" class="btn btn-ghost">Try It</a>
+            </div>
+            <div class="hero-code">
+                <div class="code-header">
+                    <span class="code-dot red"></span>
+                    <span class="code-dot yellow"></span>
+                    <span class="code-dot green"></span>
+                    <span class="code-filename">config.goml</span>
+                </div>
+                <pre><code><span class="c-comment"># App Configuration</span>
+<span class="c-key">app</span> {
+  <span class="c-key">name</span> = <span class="c-string">MyApp</span>
+  <span class="c-key">port</span> = <span class="c-number">8080</span>
+  <span class="c-key">debug</span> = <span class="c-bool">false</span>
+}
+
+<span class="c-key">database</span> {
+  <span class="c-key">host</span> = <span class="c-string">localhost</span>
+  <span class="c-key">port</span> = <span class="c-number">5432</span>
+  <span class="c-key">pool</span> {
+    <span class="c-key">min</span> = <span class="c-number">5</span>
+    <span class="c-key">max</span> = <span class="c-number">20</span>
+  }
+}
+
+<span class="c-key">features</span> = [<span class="c-string">auth</span>, <span class="c-string">logging</span>, <span class="c-string">cache</span>]</code></pre>
+            </div>
+        </div>
+    </header>
+
+    <section class="features" id="features">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Why GOML?</span>
+                <h2>Pain points, solved.</h2>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">#</div>
+                    <h3>Comments</h3>
+                    <p>Use # or // anywhere. Document your config inline.</p>
+                    <div class="feature-example">
+                        <code><span class="c-comment"># Server config</span><br><span class="c-key">port</span> = <span class="c-number">8080</span>  <span class="c-comment"># production port</span></code>
+                    </div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">{ }</div>
+                    <h3>No Indentation Errors</h3>
+                    <p>Explicit braces, not fragile indentation. Structure is always clear.</p>
+                    <div class="feature-example">
+                        <code><span class="c-key">server</span> {<br>&nbsp;&nbsp;<span class="c-key">host</span> = <span class="c-string">localhost</span><br>&nbsp;&nbsp;<span class="c-key">port</span> = <span class="c-number">8080</span><br>}</code>
+                    </div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">=</div>
+                    <h3>Clean Syntax</h3>
+                    <p>Simple key = value. No colons, no quotes on every key.</p>
+                    <div class="feature-example">
+                        <code><span class="c-key">name</span> = <span class="c-string">MyApp</span><br><span class="c-key">port</span> = <span class="c-number">8080</span><br><span class="c-key">active</span> = <span class="c-bool">true</span></code>
+                    </div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">[ ]</div>
+                    <h3>Simple Arrays</h3>
+                    <p>Comma-separated inline arrays. No dashes, no brackets everywhere.</p>
+                    <div class="feature-example">
+                        <code><span class="c-key">colors</span> = [<span class="c-string">red</span>, <span class="c-string">green</span>, <span class="c-string">blue</span>]<br><span class="c-key">ports</span> = [<span class="c-number">80</span>, <span class="c-number">443</span>, <span class="c-number">8080</span>]</code>
+                    </div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">$</div>
+                    <h3>References</h3>
+                    <p>Reference other values with $path.to.value.</p>
+                    <div class="feature-example">
+                        <code><span class="c-key">defaults</span> {<br>&nbsp;&nbsp;<span class="c-key">timeout</span> = <span class="c-number">30</span><br>}<br><span class="c-key">server</span> {<br>&nbsp;&nbsp;<span class="c-key">timeout</span> = <span class="c-ref">$defaults.timeout</span><br>}</code>
+                    </div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">~</div>
+                    <h3>Trailing Commas</h3>
+                    <p>Optional trailing commas. No more syntax errors on the last item.</p>
+                    <div class="feature-example">
+                        <code><span class="c-key">features</span> = [<br>&nbsp;&nbsp;<span class="c-string">auth</span>,<br>&nbsp;&nbsp;<span class="c-string">logging</span>,  <span class="c-comment"># trailing comma OK</span><br>]</code>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="styles" id="styles">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Three Syntax Styles</span>
+                <h2>Choose your style.</h2>
+            </div>
+            <div class="styles-grid">
+                <div class="style-card">
+                    <div class="style-badge">Simplest</div>
+                    <h3>Flat Style</h3>
+                    <p>Best for: Simple configs, .env files</p>
+                    <pre><code><span class="c-key">app_name</span> = <span class="c-string">MyApp</span>
+<span class="c-key">port</span> = <span class="c-number">8080</span>
+<span class="c-key">debug</span> = <span class="c-bool">false</span>
+<span class="c-key">database_url</span> = <span class="c-string">postgres://localhost/myapp</span></code></pre>
+                </div>
+                <div class="style-card featured">
+                    <div class="style-badge">Simpler</div>
+                    <h3>Dot Notation</h3>
+                    <p>Best for: Partial nesting, Docker Compose</p>
+                    <pre><code><span class="c-key">server.host</span> = <span class="c-string">localhost</span>
+<span class="c-key">server.port</span> = <span class="c-number">8080</span>
+<span class="c-key">database.host</span> = <span class="c-string">db.internal</span>
+<span class="c-key">database.port</span> = <span class="c-number">5432</span></code></pre>
+                </div>
+                <div class="style-card">
+                    <div class="style-badge">Original</div>
+                    <h3>Block Style</h3>
+                    <p>Best for: Complex configs, nested structures</p>
+                    <pre><code><span class="c-key">server</span> {
+  <span class="c-key">host</span> = <span class="c-string">localhost</span>
+  <span class="c-key">port</span> = <span class="c-number">8080</span>
+  <span class="c-key">ssl</span> {
+    <span class="c-key">enabled</span> = <span class="c-bool">true</span>
+  }
+}</code></pre>
+                </div>
+            </div>
+            <div class="styles-demo">
+                <h3>Mix all three in one file:</h3>
+                <pre><code><span class="c-comment"># Flat for simple values</span>
+<span class="c-key">name</span> = <span class="c-string">MyApp</span>
+<span class="c-key">version</span> = <span class="c-number">1.0</span>
+
+<span class="c-comment"># Dot notation for partial nesting</span>
+<span class="c-key">server.host</span> = <span class="c-string">localhost</span>
+<span class="c-key">server.port</span> = <span class="c-number">8080</span>
+
+<span class="c-comment"># Block for complex nested structures</span>
+<span class="c-key">database</span> {
+  <span class="c-key">primary</span> {
+    <span class="c-key">host</span> = <span class="c-string">db-primary.internal</span>
+    <span class="c-key">port</span> = <span class="c-number">5432</span>
+  }
+  <span class="c-key">replicas</span> = [<span class="c-string">replica-1.internal</span>, <span class="c-string">replica-2.internal</span>]
+}</code></pre>
+            </div>
+        </div>
+    </section>
+
+    <section class="compare" id="compare">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Comparison</span>
+                <h2>See the difference.</h2>
+            </div>
+            <div class="compare-tabs">
+                <button class="compare-tab active" data-tab="json">vs JSON</button>
+                <button class="compare-tab" data-tab="yaml">vs YAML</button>
+                <button class="compare-tab" data-tab="toml">vs TOML</button>
+                <button class="compare-tab" data-tab="xml">vs XML</button>
+            </div>
+            <div class="compare-panels">
+                <div class="compare-panel active" data-panel="json">
+                    <div class="compare-split">
+                        <div class="compare-col">
+                            <div class="compare-label goml">GOML</div>
+                            <pre><code><span class="c-key">server</span> {
+  <span class="c-key">host</span> = <span class="c-string">localhost</span>
+  <span class="c-key">port</span> = <span class="c-number">8080</span>
+}
+
+<span class="c-key">features</span> = [<span class="c-string">auth</span>, <span class="c-string">logging</span>]
+
+<span class="c-comment"># Comments work!</span></code></pre>
+                        </div>
+                        <div class="compare-col">
+                            <div class="compare-label other">JSON</div>
+                            <pre><code>{
+  <span class="c-str">"server"</span>: {
+    <span class="c-str">"host"</span>: <span class="c-str">"localhost"</span>,
+    <span class="c-str">"port"</span>: <span class="c-number">8080</span>
+  },
+  <span class="c-str">"features"</span>: [
+    <span class="c-str">"auth"</span>,
+    <span class="c-str">"logging"</span>
+  ]
+}
+<span class="c-comment">// No comments allowed!</span></code></pre>
+                        </div>
+                    </div>
+                    <div class="compare-stats">
+                        <div class="stat">
+                            <span class="stat-value">7</span>
+                            <span class="stat-label">lines (GOML)</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-value">11</span>
+                            <span class="stat-label">lines (JSON)</span>
+                        </div>
+                        <div class="stat highlight">
+                            <span class="stat-value">36%</span>
+                            <span class="stat-label">less code</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="compare-panel" data-panel="yaml">
+                    <div class="compare-split">
+                        <div class="compare-col">
+                            <div class="compare-label goml">GOML</div>
+                            <pre><code><span class="c-key">server</span> {
+  <span class="c-key">host</span> = <span class="c-string">localhost</span>
+  <span class="c-key">port</span> = <span class="c-number">8080</span>
+}
+
+<span class="c-key">features</span> = [<span class="c-string">auth</span>, <span class="c-string">logging</span>]</code></pre>
+                        </div>
+                        <div class="compare-col">
+                            <div class="compare-label other">YAML</div>
+                            <pre><code><span class="c-key">server</span>:
+  <span class="c-key">host</span>: <span class="c-string">localhost</span>
+  <span class="c-key">port</span>: <span class="c-number">8080</span>
+<span class="c-key">features</span>:
+  - <span class="c-string">auth</span>
+  - <span class="c-string">logging</span>
+<span class="c-comment"># One wrong space = broken</span></code></pre>
+                        </div>
+                    </div>
+                    <div class="compare-stats">
+                        <div class="stat">
+                            <span class="stat-value">6</span>
+                            <span class="stat-label">lines (GOML)</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-value">7</span>
+                            <span class="stat-label">lines (YAML)</span>
+                        </div>
+                        <div class="stat highlight">
+                            <span class="stat-value">0</span>
+                            <span class="stat-label">indentation errors</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="compare-panel" data-panel="toml">
+                    <div class="compare-split">
+                        <div class="compare-col">
+                            <div class="compare-label goml">GOML</div>
+                            <pre><code><span class="c-key">server</span> {
+  <span class="c-key">host</span> = <span class="c-string">localhost</span>
+  <span class="c-key">port</span> = <span class="c-number">8080</span>
+  <span class="c-key">ssl</span> {
+    <span class="c-key">enabled</span> = <span class="c-bool">true</span>
+  }
+}</code></pre>
+                        </div>
+                        <div class="compare-col">
+                            <div class="compare-label other">TOML</div>
+                            <pre><code><span class="c-key">[server]</span>
+<span class="c-key">host</span> = <span class="c-str">"localhost"</span>
+<span class="c-key">port</span> = <span class="c-number">8080</span>
+
+<span class="c-key">[server.ssl]</span>
+<span class="c-key">enabled</span> = <span class="c-bool">true</span></code></pre>
+                        </div>
+                    </div>
+                    <div class="compare-stats">
+                        <div class="stat">
+                            <span class="stat-value">7</span>
+                            <span class="stat-label">lines (GOML)</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-value">7</span>
+                            <span class="stat-label">lines (TOML)</span>
+                        </div>
+                        <div class="stat highlight">
+                            <span class="stat-value">No</span>
+                            <span class="stat-label">section headers</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="compare-panel" data-panel="xml">
+                    <div class="compare-split">
+                        <div class="compare-col">
+                            <div class="compare-label goml">GOML</div>
+                            <pre><code><span class="c-key">server</span> {
+  <span class="c-key">host</span> = <span class="c-string">localhost</span>
+  <span class="c-key">port</span> = <span class="c-number">8080</span>
+}</code></pre>
+                        </div>
+                        <div class="compare-col">
+                            <div class="compare-label other">XML</div>
+                            <pre><code><span class="c-tag">&lt;server&gt;</span>
+  <span class="c-tag">&lt;host&gt;</span><span class="c-text">localhost</span><span class="c-tag">&lt;/host&gt;</span>
+  <span class="c-tag">&lt;port&gt;</span><span class="c-number">8080</span><span class="c-tag">&lt;/port&gt;</span>
+<span class="c-tag">&lt;/server&gt;</span></code></pre>
+                        </div>
+                    </div>
+                    <div class="compare-stats">
+                        <div class="stat">
+                            <span class="stat-value">4</span>
+                            <span class="stat-label">lines (GOML)</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-value">5</span>
+                            <span class="stat-label">lines (XML)</span>
+                        </div>
+                        <div class="stat highlight">
+                            <span class="stat-value">60%</span>
+                            <span class="stat-label">less verbose</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="usecases" id="usecases">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Real World Use Cases</span>
+                <h2>GOML in DevOps.</h2>
+            </div>
+            <div class="usecase-tabs">
+                <button class="usecase-tab active" data-tab="docker">Docker Compose</button>
+                <button class="usecase-tab" data-tab="github">GitHub Actions</button>
+                <button class="usecase-tab" data-tab="k8s">Kubernetes</button>
+                <button class="usecase-tab" data-tab="nginx">Nginx</button>
+            </div>
+            <div class="usecase-panels">
+                <div class="usecase-panel active" data-panel="docker">
+                    <div class="compare-split">
+                        <div class="compare-col">
+                            <div class="compare-label goml">GOML</div>
+                            <pre><code><span class="c-key">services</span> {
+  <span class="c-key">web</span> {
+    <span class="c-key">build</span> = .
+    <span class="c-key">ports</span> = [<span class="c-number">3000:3000</span>]
+    <span class="c-key">depends_on</span> = [<span class="c-string">api</span>, <span class="c-string">db</span>]
+  }
+
+  <span class="c-key">db</span> {
+    <span class="c-key">image</span> = <span class="c-string">postgres:15</span>
+    <span class="c-key">volumes</span> = [<span class="c-string">pgdata:/var/lib/postgresql/data</span>]
+  }
+}
+
+<span class="c-key">volumes</span> { <span class="c-string">pgdata</span> }</code></pre>
+                        </div>
+                        <div class="compare-col">
+                            <div class="compare-label other">YAML</div>
+                            <pre><code><span class="c-key">services</span>:
+  <span class="c-key">web</span>:
+    <span class="c-key">build</span>: .
+    <span class="c-key">ports</span>:
+      - <span class="c-str">"3000:3000"</span>
+    <span class="c-key">depends_on</span>:
+      - <span class="c-string">api</span>
+      - <span class="c-string">db</span>
+  <span class="c-key">db</span>:
+    <span class="c-key">image</span>: <span class="c-string">postgres:15</span>
+    <span class="c-key">volumes</span>:
+      - <span class="c-str">pgdata:/var/lib/postgresql/data</span>
+
+<span class="c-key">volumes</span>:
+  <span class="c-string">pgdata</span>:</code></pre>
+                        </div>
+                    </div>
+                    <div class="compare-stats">
+                        <div class="stat highlight">
+                            <span class="stat-value">25%</span>
+                            <span class="stat-label">less code</span>
+                        </div>
+                        <div class="stat highlight">
+                            <span class="stat-value">0</span>
+                            <span class="stat-label">indentation errors</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="usecase-panel" data-panel="github">
+                    <div class="compare-split">
+                        <div class="compare-col">
+                            <div class="compare-label goml">GOML</div>
+                            <pre><code><span class="c-key">pipeline</span> {
+  <span class="c-key">name</span> = <span class="c-string">CI/CD</span>
+  
+  <span class="c-key">on</span> {
+    <span class="c-key">push</span> = [<span class="c-string">main</span>, <span class="c-string">develop</span>]
+  }
+
+  <span class="c-key">jobs</span> {
+    <span class="c-key">test</span> {
+      <span class="c-key">runs_on</span> = <span class="c-string">ubuntu-latest</span>
+      <span class="c-key">steps</span> [
+        { <span class="c-key">uses</span> = <span class="c-string">actions/checkout@v4</span> }
+        { <span class="c-key">run</span> = <span class="c-str">"go test ./..."</span> }
+      ]
+    }
+  }
+}</code></pre>
+                        </div>
+                        <div class="compare-col">
+                            <div class="compare-label other">YAML</div>
+                            <pre><code><span class="c-key">name</span>: <span class="c-string">CI/CD</span>
+<span class="c-key">on</span>:
+  <span class="c-key">push</span>:
+    <span class="c-key">branches</span>:
+      - <span class="c-string">main</span>
+      - <span class="c-string">develop</span>
+<span class="c-key">jobs</span>:
+  <span class="c-key">test</span>:
+    <span class="c-key">runs-on</span>: <span class="c-string">ubuntu-latest</span>
+    <span class="c-key">steps</span>:
+      - <span class="c-key">uses</span>: <span class="c-string">actions/checkout@v4</span>
+      - <span class="c-key">run</span>: <span class="c-str">go test ./...</span></code></pre>
+                        </div>
+                    </div>
+                    <div class="compare-stats">
+                        <div class="stat highlight">
+                            <span class="stat-value">20%</span>
+                            <span class="stat-label">less code</span>
+                        </div>
+                        <div class="stat highlight">
+                            <span class="stat-value">Clear</span>
+                            <span class="stat-label">step structure</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="usecase-panel" data-panel="k8s">
+                    <div class="compare-split">
+                        <div class="compare-col">
+                            <div class="compare-label goml">GOML</div>
+                            <pre><code><span class="c-key">deployment</span> {
+  <span class="c-key">metadata</span> { <span class="c-key">name</span> = <span class="c-string">api</span> }
+  
+  <span class="c-key">spec</span> {
+    <span class="c-key">replicas</span> = <span class="c-number">3</span>
+    <span class="c-key">containers</span> [{
+      <span class="c-key">name</span> = <span class="c-string">api</span>
+      <span class="c-key">image</span> = <span class="c-string">ghcr.io/org/api:latest</span>
+      <span class="c-key">ports</span> = [{ <span class="c-key">container_port</span> = <span class="c-number">8080</span> }]
+    }]
+  }
+}</code></pre>
+                        </div>
+                        <div class="compare-col">
+                            <div class="compare-label other">YAML</div>
+                            <pre><code><span class="c-key">apiVersion</span>: <span class="c-string">apps/v1</span>
+<span class="c-key">kind</span>: <span class="c-string">Deployment</span>
+<span class="c-key">metadata</span>:
+  <span class="c-key">name</span>: <span class="c-string">api</span>
+<span class="c-key">spec</span>:
+  <span class="c-key">replicas</span>: <span class="c-number">3</span>
+  <span class="c-key">template</span>:
+    <span class="c-key">spec</span>:
+      <span class="c-key">containers</span>:
+        - <span class="c-key">name</span>: <span class="c-string">api</span>
+          <span class="c-key">image</span>: <span class="c-string">ghcr.io/org/api:latest</span>
+          <span class="c-key">ports</span>:
+            - <span class="c-key">containerPort</span>: <span class="c-number">8080</span></code></pre>
+                        </div>
+                    </div>
+                    <div class="compare-stats">
+                        <div class="stat highlight">
+                            <span class="stat-value">30%</span>
+                            <span class="stat-label">less verbose</span>
+                        </div>
+                        <div class="stat highlight">
+                            <span class="stat-value">Explicit</span>
+                            <span class="stat-label">structure</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="usecase-panel" data-panel="nginx">
+                    <div class="compare-split">
+                        <div class="compare-col">
+                            <div class="compare-label goml">GOML</div>
+                            <pre><code><span class="c-key">nginx</span> {
+  <span class="c-key">http</span> {
+    <span class="c-key">upstream</span> backend {
+      <span class="c-key">server</span> = <span class="c-string">127.0.0.1:8080</span>
+    }
+    
+    <span class="c-key">server</span> {
+      <span class="c-key">listen</span> = <span class="c-number">80</span>
+      <span class="c-key">server_name</span> = <span class="c-string">example.com</span>
+      
+      <span class="c-key">location</span> /api {
+        <span class="c-key">proxy_pass</span> = <span class="c-string">http://backend</span>
+      }
+    }
+  }
+}</code></pre>
+                        </div>
+                        <div class="compare-col">
+                            <div class="compare-label other">Nginx</div>
+                            <pre><code><span class="c-key">http</span> {
+    <span class="c-key">upstream</span> backend {
+        <span class="c-key">server</span> <span class="c-string">127.0.0.1:8080</span>;
+    }
+    
+    <span class="c-key">server</span> {
+        <span class="c-key">listen</span> <span class="c-number">80</span>;
+        <span class="c-key">server_name</span> <span class="c-string">example.com</span>;
+        
+        <span class="c-key">location</span> /api {
+            <span class="c-key">proxy_pass</span> <span class="c-string">http://backend</span>;
+        }
+    }
+}</code></pre>
+                        </div>
+                    </div>
+                    <div class="compare-stats">
+                        <div class="stat highlight">
+                            <span class="stat-value">No</span>
+                            <span class="stat-label">semicolons</span>
+                        </div>
+                        <div class="stat highlight">
+                            <span class="stat-value">Clean</span>
+                            <span class="stat-label">syntax</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div style="text-align:center;margin-top:40px;display:flex;gap:12px;justify-content:center">
+                <a href="usecase/" class="btn btn-primary" target="_blank">View All Examples</a>
+                <a href="../examples/budget-tracker/index.html" class="btn btn-outline" target="_blank">Try Budget Tracker Demo</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="install" id="install">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Installation</span>
+                <h2>Start in seconds.</h2>
+            </div>
+            <div class="install-grid">
+                <div class="install-card">
+                    <div class="install-icon">Go</div>
+                    <h3>Go Library</h3>
+                    <div class="install-cmd">
+                        <code>go get github.com/goml-lang/goml/pkg/goml</code>
+                    </div>
+                </div>
+                <div class="install-card">
+                    <div class="install-icon">CLI</div>
+                    <h3>Command Line</h3>
+                    <div class="install-cmd">
+                        <code>go install github.com/goml-lang/goml/cmd/goml@latest</code>
+                    </div>
+                </div>
+                <div class="install-card">
+                    <div class="install-icon">Py</div>
+                    <h3>Python</h3>
+                    <div class="install-cmd">
+                        <code>pip install goml</code>
+                    </div>
+                </div>
+                <div class="install-card">
+                    <div class="install-icon">JS</div>
+                    <h3>JavaScript</h3>
+                    <div class="install-cmd">
+                        <code>npm install @goml/parser</code>
+                    </div>
+                </div>
+            </div>
+            <div class="cli-demo">
+                <h3>CLI Tools</h3>
+                <div class="cli-grid">
+                    <div class="cli-item">
+                        <div class="cli-cmd">goml fmt config.goml</div>
+                        <div class="cli-desc">Format files in-place</div>
+                    </div>
+                    <div class="cli-item">
+                        <div class="cli-cmd">goml lint config.goml</div>
+                        <div class="cli-desc">Check for issues</div>
+                    </div>
+                    <div class="cli-item">
+                        <div class="cli-cmd">goml validate -s schema.goml config.goml</div>
+                        <div class="cli-desc">Validate against schema</div>
+                    </div>
+                    <div class="cli-item">
+                        <div class="cli-cmd">goml convert -f json -t goml config.json</div>
+                        <div class="cli-desc">Convert between formats</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="playground" id="playground">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Playground</span>
+                <h2>Try GOML now.</h2>
+            </div>
+            <div class="playground-editor">
+                <div class="editor-tabs">
+                    <div class="editor-tab active">GOML Input</div>
+                    <div class="editor-tab">JSON Output</div>
+                </div>
+                <div class="editor-body">
+                    <div class="editor-pane active" id="goml-input">
+                        <div class="highlight-container">
+                            <pre class="highlight-overlay" id="highlight-overlay" aria-hidden="true"><code></code></pre>
+                            <textarea id="goml-editor" spellcheck="false"># Try editing this GOML
+app {
+  name = MyApp
+  port = 8080
+  debug = false
+}
+
+server {
+  host = localhost
+  port = 8080
+  workers = 4
+}
+
+database {
+  host = localhost
+  port = 5432
+  name = myapp
+}
+
+features = [auth, logging, cache]</textarea>
+                        </div>
+                    </div>
+                    <div class="editor-pane" id="json-output">
+                        <pre id="json-result"></pre>
+                    </div>
+                </div>
+                <div class="editor-footer">
+                    <button class="btn btn-primary" id="parse-btn">Parse to JSON</button>
+                    <span class="editor-status" id="parse-status">Ready</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="schema-section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Schema Validation</span>
+                <h2>Catch errors early.</h2>
+            </div>
+            <div class="schema-demo">
+                <div class="schema-code">
+                    <div class="code-header">
+                        <span class="code-dot red"></span>
+                        <span class="code-dot yellow"></span>
+                        <span class="code-dot green"></span>
+                        <span class="code-filename">schema.goml</span>
+                    </div>
+                    <pre><code><span class="c-key">type</span> = <span class="c-string">object</span>
+<span class="c-key">required</span> = [<span class="c-string">name</span>, <span class="c-string">port</span>]
+
+<span class="c-key">properties</span> {
+  <span class="c-key">name</span> {
+    <span class="c-key">type</span> = <span class="c-string">string</span>
+    <span class="c-key">minLength</span> = <span class="c-number">1</span>
+  }
+  <span class="c-key">port</span> {
+    <span class="c-key">type</span> = <span class="c-string">integer</span>
+    <span class="c-key">minimum</span> = <span class="c-number">1</span>
+    <span class="c-key">maximum</span> = <span class="c-number">65535</span>
+  }
+  <span class="c-key">environment</span> {
+    <span class="c-key">type</span> = <span class="c-string">string</span>
+    <span class="c-key">enum</span> = [<span class="c-string">dev</span>, <span class="c-string">staging</span>, <span class="c-string">prod</span>]
+  }
+}</code></pre>
+                </div>
+                <div class="schema-commands">
+                    <div class="schema-cmd">
+                        <code>goml validate -s schema.goml config.goml</code>
+                        <div class="schema-result success">config.goml: valid</div>
+                    </div>
+                    <div class="schema-cmd">
+                        <code>goml lint config.goml</code>
+                        <div class="schema-result warning">1:5: warning: duplicate key "port"</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <span class="logo-bracket">{</span>
+                    <span class="logo-text">GOML</span>
+                    <span class="logo-bracket">}</span>
+                    <p>Simple data format for the modern web.</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Docs</h4>
+                    <a href="#">Specification</a>
+                    <a href="#">Migration Guide</a>
+                    <a href="#">CLI Reference</a>
+                    <a href="#">Schema Guide</a>
+                </div>
+                <div class="footer-links">
+                    <h4>Libraries</h4>
+                    <a href="#">Go</a>
+                    <a href="#">Python</a>
+                    <a href="#">JavaScript</a>
+                    <a href="#">TypeScript</a>
+                </div>
+                <div class="footer-links">
+                    <h4>Community</h4>
+                    <a href="https://github.com/goml-lang/goml" target="_blank">GitHub</a>
+                    <a href="#">Discord</a>
+                    <a href="#">Contributing</a>
+                    <a href="#">Roadmap</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>MIT License. Built with Go.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="website/syntax-highlighter.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,100 @@
+# GitHub Actions Workflow in GOML
+# Replaces .github/workflows/ci.yml
+
+pipeline {
+  name = CI/CD Pipeline
+  
+  on {
+    push = [main, develop]
+    pull_request = [main]
+    schedule = [{ cron = "0 2 * * 1" }]
+  }
+
+  env {
+    GO_VERSION = "1.21"
+    NODE_VERSION = "20"
+  }
+
+  jobs {
+    test {
+      name = Run Tests
+      runs_on = ubuntu-latest
+      
+      steps [
+        { uses = actions/checkout@v4 }
+        { uses = actions/setup-go@v5 with { go_version = "$GO_VERSION" } }
+        { uses = actions/setup-node@v4 with { node_version = "$NODE_VERSION" } }
+        { run = "go mod download" }
+        { run = "go test ./... -v -race -coverprofile=coverage.out" }
+        { run = "npm ci" }
+        { run = "npm test" }
+        { uses = codecov/codecov-action@v3 with { file = "./coverage.out" } }
+      ]
+    }
+
+    lint {
+      name = Lint Code
+      runs_on = ubuntu-latest
+      
+      steps [
+        { uses = actions/checkout@v4 }
+        { uses = actions/setup-go@v5 with { go_version = "$GO_VERSION" } }
+        { run = "go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest" }
+        { run = "golangci-lint run" }
+        { uses = actions/setup-node@v4 with { node_version = "$NODE_VERSION" } }
+        { run = "npm ci" }
+        { run = "npm run lint" }
+      ]
+    }
+
+    build {
+      name = Build Binaries
+      runs_on = ubuntu-latest
+      needs = [test, lint]
+      
+      strategy {
+        matrix {
+          goos = [linux, darwin, windows]
+          goarch = [amd64, arm64]
+          exclude = [{ goos = windows, goarch = arm64 }]
+        }
+      }
+      
+      steps [
+        { uses = actions/checkout@v4 }
+        { uses = actions/setup-go@v5 with { go_version = "$GO_VERSION" } }
+        { run = "go build -o dist/goml-matrix.goos-matrix.goarch ./cmd/goml" }
+        { uses = actions/upload-artifact@v4 with { name = "goml-matrix.goos-matrix.goarch", path = "dist/" } }
+      ]
+    }
+
+    docker {
+      name = Build Docker Image
+      runs_on = ubuntu-latest
+      needs = [test, lint]
+      if = "github.ref == 'refs/heads/main'"
+      
+      steps [
+        { uses = actions/checkout@v4 }
+        { uses = docker/setup-buildx-action@v3 }
+        { uses = docker/login-action@v3 with { registry = "ghcr.io", username = "$GITHUB_ACTOR", password = "$GITHUB_TOKEN" } }
+        { uses = docker/build-push-action@v5 with { push = true, tags = "ghcr.io/$GITHUB_REPOSITORY:latest" } }
+      ]
+    }
+
+    deploy {
+      name = Deploy to Production
+      runs_on = ubuntu-latest
+      needs = [build, docker]
+      if = "github.ref == 'refs/heads/main'"
+      environment = production
+      
+      steps [
+        { uses = actions/checkout@v4 }
+        { uses = azure/k8s-set-context@v3 with { method = "kubeconfig", kubeconfig = "$KUBECONFIG" } }
+        { run = "kubectl apply -f k8s/" }
+        { run = "kubectl rollout restart deployment/api -n production" }
+      ]
+    }
+  }
+}

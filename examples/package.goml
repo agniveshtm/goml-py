@@ -1,0 +1,34 @@
+# Package Manifest
+
+name = github.com/user/myproject
+version = 1.0.0
+description = A sample Go project using GOML
+license = MIT
+
+author {
+  name = John Doe
+  email = john@example.com
+}
+
+dependencies {
+  gin = v1.9.1
+  pgx = v5.4.3
+  zap = v1.26.0
+}
+
+dev_dependencies {
+  golangci-lint = v1.54.0
+}
+
+build {
+  main = ./cmd/server
+  output = ./bin/server
+}
+
+scripts {
+  test = go test ./...
+  build = go build -o bin/server ./cmd/server
+  lint = golangci-lint run
+}
+
+go_version = 1.21

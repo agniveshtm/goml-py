@@ -1,0 +1,85 @@
+# Nginx Configuration in GOML
+# Replaces nginx.conf
+
+nginx {
+  worker_processes = auto
+  error_log = /var/log/nginx/error.log
+  pid = /var/run/nginx.pid
+  
+  events {
+    worker_connections = 1024
+  }
+  
+  http {
+    include = /etc/nginx/mime.types
+    default_type = application/octet-stream
+    
+    log_format main {
+      remote_addr = "$remote_addr"
+      remote_user = "$remote_user"
+      time_local = "$time_local"
+      request = "$request"
+      status = "$status"
+      body_bytes_sent = "$body_bytes_sent"
+      referer = "$referer"
+      user_agent = "$user_agent"
+    }
+    
+    access_log = /var/log/nginx/access.log main
+    sendfile = on
+    keepalive_timeout = 65
+    
+    gzip = on
+    gzip_types = [text/plain, text/css, application/json, application/javascript]
+    
+    upstream backend {
+      server 127.0.0.1:8080
+      server 127.0.0.1:8081
+      keepalive = 32
+    }
+    
+    server {
+      listen = 80
+      server_name = example.com
+      
+      location / {
+        root = /var/www/html
+        index = index.html
+        try_files $uri $uri/ /index.html
+      }
+      
+      location /api {
+        proxy_pass = http://backend
+        proxy_set_header Host $host
+        proxy_set_header X-Real-IP $remote_addr
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for
+        proxy_set_header X-Forwarded-Proto $scheme
+      }
+      
+      location /static {
+        root = /var/www
+        expires = 30d
+        add_header Cache-Control "public, immutable"
+      }
+      
+      location ~* \.(js|css|png|jpg|jpeg|gif|ico|svg)$ {
+        expires = 1y
+        add_header Cache-Control "public, immutable"
+      }
+    }
+    
+    server {
+      listen = 443 ssl http2
+      server_name = example.com
+      
+      ssl_certificate = /etc/ssl/certs/example.com.pem
+      ssl_certificate_key = /etc/ssl/private/example.com.key
+      ssl_protocols = [TLSv1.2, TLSv1.3]
+      ssl_ciphers = HIGH:!aNULL:!MD5
+      
+      location / {
+        proxy_pass = http://backend
+      }
+    }
+  }
+}

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Budget Tracker - GOML Example</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <span class="logo-bracket">{</span>
+                <span class="logo-text">Budget</span>
+                <span class="logo-bracket">}</span>
+                <span class="logo-sub">GOML Powered</span>
+            </div>
+            <div class="header-actions">
+                <div class="export-group">
+                    <button class="btn btn-outline" onclick="exportGOML()">Export GOML</button>
+                    <button class="btn btn-outline" onclick="exportJSON()">Export JSON</button>
+                </div>
+                <div class="import-group">
+                    <label class="btn btn-outline">
+                        Import GOML
+                        <input type="file" accept=".goml" onchange="importGOML(event)" hidden>
+                    </label>
+                    <label class="btn btn-outline">
+                        Import JSON
+                        <input type="file" accept=".json" onchange="importJSON(event)" hidden>
+                    </label>
+                </div>
+                <button class="btn btn-primary" onclick="showAddModal()">+ Add Transaction</button>
+            </div>
+        </header>
+
+        <main class="container">
+            <!-- Stats Cards -->
+            <div class="stats-grid">
+                <div class="stat-card income">
+                    <div class="stat-icon">+</div>
+                    <div class="stat-info">
+                        <div class="stat-label">Income</div>
+                        <div class="stat-value" id="totalIncome">$0</div>
+                    </div>
+                </div>
+                <div class="stat-card expense">
+                    <div class="stat-icon">-</div>
+                    <div class="stat-info">
+                        <div class="stat-label">Expenses</div>
+                        <div class="stat-value" id="totalExpenses">$0</div>
+                    </div>
+                </div>
+                <div class="stat-card balance">
+                    <div class="stat-icon">=</div>
+                    <div class="stat-info">
+                        <div class="stat-label">Balance</div>
+                        <div class="stat-value" id="balance">$0</div>
+                    </div>
+                </div>
+                <div class="stat-card budget">
+                    <div class="stat-icon">$</div>
+                    <div class="stat-info">
+                        <div class="stat-label">Budget Left</div>
+                        <div class="stat-value" id="budgetLeft">$0</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="main-grid">
+                <!-- Transactions List -->
+                <div class="panel">
+                    <div class="panel-header">
+                        <h2>Transactions</h2>
+                        <div class="filter-group">
+                            <select id="filterCategory" onchange="renderTransactions()">
+                                <option value="all">All Categories</option>
+                            </select>
+                            <select id="filterType" onchange="renderTransactions()">
+                                <option value="all">All Types</option>
+                                <option value="income">Income</option>
+                                <option value="expense">Expense</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="transactions-list" id="transactionsList"></div>
+                </div>
+
+                <!-- Category Breakdown -->
+                <div class="panel">
+                    <div class="panel-header">
+                        <h2>By Category</h2>
+                    </div>
+                    <div class="category-list" id="categoryList"></div>
+                </div>
+            </div>
+
+            <!-- Data Preview -->
+            <div class="panel goml-panel">
+                <div class="panel-header">
+                    <h2>Data Preview</h2>
+                    <div class="preview-tabs">
+                        <button class="preview-tab active" onclick="showPreview('goml')">GOML</button>
+                        <button class="preview-tab" onclick="showPreview('json')">JSON</button>
+                        <button class="btn btn-small" onclick="copyPreview()">Copy</button>
+                    </div>
+                </div>
+                <pre class="goml-preview" id="dataPreview"></pre>
+            </div>
+        </main>
+    </div>
+
+    <!-- Add/Edit Modal -->
+    <div class="modal" id="transactionModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">Add Transaction</h3>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            <form id="transactionForm" onsubmit="saveTransaction(event)">
+                <input type="hidden" id="editId">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Description</label>
+                        <input type="text" id="description" required placeholder="e.g., Grocery Store">
+                    </div>
+                    <div class="form-group">
+                        <label>Amount</label>
+                        <input type="number" id="amount" step="0.01" min="0.01" required placeholder="0.00">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Category</label>
+                        <select id="category" required></select>
+                    </div>
+                    <div class="form-group">
+                        <label>Type</label>
+                        <select id="type" required>
+                            <option value="expense">Expense</option>
+                            <option value="income">Income</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Date</label>
+                    <input type="date" id="date" required>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-outline" onclick="closeModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

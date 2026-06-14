@@ -1,0 +1,129 @@
+# Budget Tracker Data
+# All data stored in GOML format
+
+settings {
+  currency = USD
+  monthly_budget = 3000
+  theme = dark
+}
+
+categories [
+  {
+    name = Food
+    color = "#ff6b6b"
+    icon = pizza
+  }
+  {
+    name = Transport
+    color = "#4ecdc4"
+    icon = car
+  }
+  {
+    name = Entertainment
+    color = "#a855f7"
+    icon = play
+  }
+  {
+    name = Bills
+    color = "#f59e0b"
+    icon = bolt
+  }
+  {
+    name = Shopping
+    color = "#ec4899"
+    icon = bag
+  }
+  {
+    name = Health
+    color = "#10b981"
+    icon = heart
+  }
+  {
+    name = Income
+    color = "#22c55e"
+    icon = dollar
+  }
+]
+
+transactions [
+  {
+    id = 1
+    description = Salary
+    amount = 5000
+    category = Income
+    date = 2024-01-01
+    type = income
+  }
+  {
+    id = 2
+    description = Grocery Store
+    amount = 85.50
+    category = Food
+    date = 2024-01-03
+    type = expense
+  }
+  {
+    id = 3
+    description = Netflix Subscription
+    amount = 15.99
+    category = Entertainment
+    date = 2024-01-05
+    type = expense
+  }
+  {
+    id = 4
+    description = Electric Bill
+    amount = 120.00
+    category = Bills
+    date = 2024-01-07
+    type = expense
+  }
+  {
+    id = 5
+    description = Uber Ride
+    amount = 25.00
+    category = Transport
+    date = 2024-01-10
+    type = expense
+  }
+  {
+    id = 6
+    description = Amazon Purchase
+    amount = 67.99
+    category = Shopping
+    date = 2024-01-12
+    type = expense
+  }
+  {
+    id = 7
+    description = Lunch with Friends
+    amount = 42.00
+    category = Food
+    date = 2024-01-14
+    type = expense
+  }
+  {
+    id = 8
+    description = Gym Membership
+    amount = 50.00
+    category = Health
+    date = 2024-01-15
+    type = expense
+  }
+  {
+    id = 9
+    description = Spotify
+    amount = 9.99
+    category = Entertainment
+    date = 2024-01-16
+    type = expense
+  }
+  {
+    id = 10
+    description = Gas Station
+    amount = 45.00
+    category = Transport
+    date = 2024-01-18
+    type = expense
+  }
+]

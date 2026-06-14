@@ -1,0 +1,81 @@
+// GOML Formal Grammar (EBNF)
+//
+// File: specs/grammar.ebnf
+// Version: 1.1.0
+//
+// This defines the complete GOML syntax formally.
+// GOML supports TWO syntax styles:
+//   1. Block style (original) - uses { } for nesting
+//   2. Dot notation (new) - uses dots for flat hierarchy
+//
+// Choose whichever fits your use case.
+
+(* Top-level *)
+Document          = { Statement } ;
+Statement         = Comment | BlockEntry | DotEntry | FlatEntry | BlankLine ;
+BlankLine         = NEWLINE ;
+
+(* Comments *)
+Comment           = "#" { char - NEWLINE } NEWLINE
+                  | "//" { char - NEWLINE } NEWLINE ;
+
+(* Block Style (Original) *)
+BlockEntry        = IDENT Block | IDENT "=" Value ;
+Block             = "{" { Statement } "}" ;
+
+(* Dot Notation Style (New - Simpler) *)
+DotEntry          = DotPath "=" Value ;
+DotPath           = IDENT { "." IDENT } ;
+
+(* Flat Style (Simplest - No nesting needed) *)
+FlatEntry         = IDENT "=" Value ;
+
+(* Values *)
+Value             = StringValue
+                  | NumberValue
+                  | BooleanValue
+                  | NullValue
+                  | ArrayValue
+                  | InlineObject
+                  | ReferenceValue
+                  | MultilineValue ;
+
+StringValue       = QuotedString | UnquotedString ;
+QuotedString      = DQUOTE { char - DQUOTE - NEWLINE | EscapedChar } DQUOTE
+                  | SQUOTE { char - SQUOTE - NEWLINE } SQUOTE ;
+UnquotedString    = IDENT ;
+
+NumberValue       = [ "-" ] DIGIT { DIGIT } [ "." DIGIT { DIGIT } ] ;
+
+BooleanValue      = "true" | "false" ;
+
+NullValue         = "null" | "~" ;
+
+(* Arrays - both styles work *)
+ArrayValue        = "[" [ ArrayItems ] "]" ;
+ArrayItems        = Value { "," Value } [ "," ] ;
+
+(* Inline Object (for arrays of objects) *)
+InlineObject      = "{" { DotEntry | FlatEntry } "}" ;
+
+(* References *)
+ReferenceValue    = "$" IDENT { "." IDENT } ;
+
+(* Multiline Strings *)
+MultilineValue    = MultilineLiteral | MultilineFolded ;
+MultilineLiteral  = "|||" NEWLINE { char } NEWLINE "|||" ;
+MultilineFolded   = ">>" NEWLINE { char } NEWLINE ">>" ;
+
+(* Identifiers *)
+IDENT             = ( ALPHA | "_" ) { ALPHA | DIGIT | "_" | "-" } ;
+
+(* Escape sequences *)
+EscapedChar       = "\\" ( "n" | "t" | "\\" | DQUOTE | SQUOTE ) ;
+
+(* Terminals *)
+DQUOTE            = '"' ;
+SQUOTE            = "'" ;
+ALPHA             = "a" .. "z" | "A" .. "Z" ;
+DIGIT             = "0" .. "9" ;
+NEWLINE           = "\n" | "\r\n" ;
+char              = ? any Unicode character ? ;

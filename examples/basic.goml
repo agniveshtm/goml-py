@@ -1,0 +1,91 @@
+# Basic GOML Syntax Examples
+
+# Simple key-value pairs
+name = John
+age = 30
+active = true
+pi = 3.14
+empty = null
+
+# Strings
+greeting = "Hello World"
+path = /usr/local/bin
+message = "This has spaces"
+
+# Quoted strings with escapes
+escaped = "Line one\nLine two"
+tab = "Column1\tColumn2"
+
+# Numbers
+count = 42
+negative = -10
+float_val = 99.99
+big_number = 15000000000
+
+# Booleans
+enabled = true
+disabled = false
+
+# Null
+nothing = null
+also_nothing = ~
+
+# Arrays
+colors = [red, green, blue]
+numbers = [1, 2, 3, 4, 5]
+mixed = [hello, 42, true, null]
+empty_array = []
+
+# Objects
+person {
+  name = John Doe
+  age = 30
+  married = false
+}
+
+# Nested objects
+address {
+  street = 123 Main St
+  city = Anytown
+  state = CA
+  zip = 12345
+
+  coordinates {
+    lat = 37.7749
+    lng = -122.4194
+  }
+}
+
+# Array of objects
+employees [
+  {
+    name = Alice
+    department = Engineering
+    skills = [Go, Python, Rust]
+  }
+  {
+    name = Bob
+    department = Marketing
+    skills = [SEO, Content]
+  }
+]
+
+# Inline comment
+version = 1.0  # Current version
+
+# References
+defaults {
+  timeout = 30
+  retries = 3
+}
+
+service {
+  name = api-gateway
+  timeout = $defaults.timeout
+  retries = $defaults.retries
+}
+
+# Comments
+# This is a comment
+// This is also a comment
+# Comments can appear anywhere

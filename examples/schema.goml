@@ -1,0 +1,57 @@
+# Schema Definition Example
+
+type = object
+
+required = [name, version, port]
+
+properties {
+  name {
+    type = string
+    minLength = 1
+    maxLength = 100
+    description = Application name
+  }
+
+  version {
+    type = string
+    pattern = ^\d+\.\d+\.\d+$
+    description = Semantic version (x.y.z)
+  }
+
+  debug {
+    type = boolean
+    default = false
+  }
+
+  port {
+    type = integer
+    minimum = 1
+    maximum = 65535
+    description = Server port number
+  }
+
+  host {
+    type = string
+    default = localhost
+  }
+
+  environment {
+    type = string
+    enum = [development, staging, production]
+    default = development
+  }
+
+  features {
+    type = array
+    items = string
+  }
+
+  database {
+    type = object
+    properties {
+      host = string
+      port = integer
+      name = string
+    }
+  }
+}

@@ -1,0 +1,58 @@
+# Application Configuration
+# GOML - Simple, clean, readable
+
+app {
+  name = MyApp
+  version = 2.1.0
+  debug = false
+}
+
+server {
+  host = 0.0.0.0
+  port = 8080
+  workers = 4
+  timeout = 30
+
+  ssl {
+    enabled = true
+    cert = /etc/ssl/certs/app.pem
+    key = /etc/ssl/private/app.key
+  }
+}
+
+database {
+  driver = postgres
+  host = db.example.com
+  port = 5432
+  name = myapp_production
+
+  pool {
+    min = 5
+    max = 20
+    idle_timeout = 300
+  }
+
+  credentials {
+    user = app_user
+    pass = "$DB_PASSWORD"
+  }
+}
+
+features {
+  dark_mode = true
+  beta_features = false
+  analytics = true
+  max_upload_size = 10485760
+}
+
+logging {
+  level = info
+  output = [stdout, /var/log/app.log]
+  format = json
+
+  rotate {
+    enabled = true
+    max_size = 100MB
+    max_files = 5
+  }
+}

@@ -1,0 +1,101 @@
+# Data Structures Example
+
+# Users list
+users [
+  {
+    name = Alice Johnson
+    email = alice@example.com
+    role = admin
+    active = true
+    permissions = [read, write, delete]
+  }
+  {
+    name = Bob Smith
+    email = bob@example.com
+    role = user
+    active = true
+    permissions = [read, write]
+  }
+  {
+    name = Charlie Brown
+    email = charlie@example.com
+    role = viewer
+    active = false
+    permissions = [read]
+  }
+]
+
+# Product catalog
+products {
+  electronics {
+    laptop {
+      name = MacBook Pro 14-inch
+      price = 1999.99
+      specs {
+        cpu = M3 Pro
+        ram = 18GB
+        storage = 512GB SSD
+      }
+      in_stock = true
+    }
+
+    phone {
+      name = iPhone 15 Pro
+      price = 999.00
+      colors = [black, white, blue, titanium]
+    }
+  }
+
+  clothing {
+    shirt {
+      name = Classic Polo
+      price = 49.99
+      sizes = [S, M, L, XL]
+      colors = [red, blue, green]
+    }
+  }
+}
+
+# API endpoints
+endpoints [
+  {
+    method = GET
+    path = /api/users
+    description = List all users
+    auth_required = true
+    rate_limit = 100
+  }
+  {
+    method = POST
+    path = /api/users
+    description = Create a new user
+    auth_required = true
+    rate_limit = 10
+  }
+  {
+    method = GET
+    path = /api/users/:id
+    description = Get user by ID
+    auth_required = true
+    rate_limit = 200
+  }
+]
+
+# Settings
+settings {
+  theme = dark
+  language = en-US
+  timezone = America/New_York
+
+  notifications {
+    email = true
+    push = true
+    sms = false
+  }
+
+  privacy {
+    profile_visible = true
+    show_email = false
+    allow_analytics = true
+  }
+}
