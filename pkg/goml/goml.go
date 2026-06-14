@@ -6,8 +6,8 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/goml-lang/goml/internal/ast"
-	"github.com/goml-lang/goml/internal/parser"
+	"github.com/Aswanidev-vs/goml/internal/ast"
+	"github.com/Aswanidev-vs/goml/internal/parser"
 )
 
 func ParseBytes(data []byte) (interface{}, error) {

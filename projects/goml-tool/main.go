@@ -8,10 +8,10 @@ import (
 	"strings"
 	"time"
 
-	gomlfmt "github.com/goml-lang/goml/internal/fmt"
-	"github.com/goml-lang/goml/internal/lint"
-	"github.com/goml-lang/goml/internal/schema"
-	"github.com/goml-lang/goml/pkg/goml"
+	gomlfmt "github.com/Aswanidev-vs/goml/internal/fmt"
+	"github.com/Aswanidev-vs/goml/internal/lint"
+	"github.com/Aswanidev-vs/goml/internal/schema"
+	"github.com/Aswanidev-vs/goml/pkg/goml"
 )
 
 const html = `<!DOCTYPE html>
@@ -172,7 +172,7 @@ function copyOutput(){
 }
 function clearAll(){document.getElementById('input').value='';document.getElementById('outputPre').textContent='';document.getElementById('status').textContent='';}
 function loadExample(){
-document.getElementById('input').value=`+"`"+`# Application Configuration
+document.getElementById('input').value=` + "`" + `# Application Configuration
 app {
   name = MyApp
   version = 2.1.0
@@ -200,7 +200,7 @@ database {
   }
 }
 
-features = [auth, logging, cache]`+"`"+`;
+features = [auth, logging, cache]` + "`" + `;
 }
 </script>
 </body>

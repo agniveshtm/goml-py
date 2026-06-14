@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/goml-lang/goml/pkg/goml"
+	"github.com/Aswanidev-vs/goml/pkg/goml"
 )
 
 type Format string

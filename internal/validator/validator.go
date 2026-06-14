@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/goml-lang/goml/internal/schema"
-	"github.com/goml-lang/goml/pkg/goml"
+	"github.com/Aswanidev-vs/goml/internal/schema"
+	"github.com/Aswanidev-vs/goml/pkg/goml"
 )
 
 type Validator struct {

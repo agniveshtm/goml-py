@@ -4,11 +4,11 @@ import (
 	"fmt"
 	"os"
 
-	gomlfmt "github.com/goml-lang/goml/internal/fmt"
-	"github.com/goml-lang/goml/internal/lint"
-	"github.com/goml-lang/goml/internal/schema"
-	"github.com/goml-lang/goml/internal/convert"
-	"github.com/goml-lang/goml/pkg/goml"
+	"github.com/Aswanidev-vs/goml/internal/convert"
+	gomlfmt "github.com/Aswanidev-vs/goml/internal/fmt"
+	"github.com/Aswanidev-vs/goml/internal/lint"
+	"github.com/Aswanidev-vs/goml/internal/schema"
+	"github.com/Aswanidev-vs/goml/pkg/goml"
 )
 
 const version = "0.1.0"

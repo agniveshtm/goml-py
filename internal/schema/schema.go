@@ -6,8 +6,8 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/goml-lang/goml/internal/parser"
-	"github.com/goml-lang/goml/internal/ast"
+	"github.com/Aswanidev-vs/goml/internal/ast"
+	"github.com/Aswanidev-vs/goml/internal/parser"
 )
 
 type Schema struct {

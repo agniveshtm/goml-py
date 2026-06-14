@@ -5,8 +5,8 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/goml-lang/goml/internal/ast"
-	"github.com/goml-lang/goml/internal/lexer"
+	"github.com/Aswanidev-vs/goml/internal/ast"
+	"github.com/Aswanidev-vs/goml/internal/lexer"
 )
 
 type Parser struct {

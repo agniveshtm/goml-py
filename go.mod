@@ -1,3 +1,3 @@
-module github.com/goml-lang/goml
+module github.com/Aswanidev-vs/goml
 
 go 1.21
