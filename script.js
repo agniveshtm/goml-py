@@ -20,7 +20,7 @@ function highlightJson(str) {
         } else if (/null/.test(match)) {
             cls = 'json-null';
         }
-        return '<span class="' + cls + '">' + match + '</span>';
+        return '<span class="' + cls + '">' + escapeHtml(match) + '</span>';
     });
 }
 
